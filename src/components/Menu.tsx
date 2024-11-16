@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MenuItem, menuItems } from '../data/menu';
-import { ShoppingCart, Filter, UtensilsCrossed } from 'lucide-react';
+import { ShoppingCart, UtensilsCrossed } from 'lucide-react';
 import Toast from './Toast';
 
 interface MenuProps {
@@ -14,7 +14,7 @@ export default function Menu({ tableNumber, onAddToCart }: MenuProps) {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
-  const categories = ['all', 'starters', 'main', 'street', 'drinks', 'desserts'];
+  const categories = ['all', 'starters', 'main', 'street', 'Breads', 'Rice', 'drinks', 'desserts'];
   const types = ['all', 'veg', 'non-veg'];
 
   const filteredItems = menuItems.filter(item => {
@@ -23,7 +23,6 @@ export default function Menu({ tableNumber, onAddToCart }: MenuProps) {
     return categoryMatch && typeMatch;
   });
 
-  // Group items by category
   const groupedItems = filteredItems.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];
@@ -41,104 +40,127 @@ export default function Menu({ tableNumber, onAddToCart }: MenuProps) {
 
   const getCategoryTitle = (category: string) => {
     const titles: Record<string, string> = {
+      all: '🍽️ All Dishes',
       starters: '🍱 Appetizing Starters',
       main: '🍛 Signature Main Course',
       street: '🥘 Street Food Delights',
       drinks: '🥤 Refreshing Beverages',
-      desserts: '🍨 Sweet Endings'
+      desserts: '🍨 Sweet Endings',
+      Breads: '🍞 Desi Roti',
+      Rice: '🍚 Pulao Rice'
     };
     return titles[category] || category;
   };
 
+  const getCategoryIcon = (category: string) => {
+    const icons: Record<string, string> = {
+      all: '🍽️',
+      starters: '🍱',
+      main: '🍛',
+      street: '🍕',
+      drinks: '🥂',
+      desserts: '🍨',
+      Breads: '🍞',
+      Rice: '🍚'
+    };
+    return icons[category] || '🍽️';
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <div className="flex items-center gap-3">
-            <UtensilsCrossed size={32} className="text-orange-600" />
-            <h1 className="text-3xl font-bold text-gray-800">Spice Garden</h1>
+    <div className="min-h-screen bg-gray-900 text-white"> {/* Set outer background here */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <div className="flex items-center gap-3">
+              <UtensilsCrossed size={32} className="text-orange-400" />
+              <h1 className="text-3xl font-bold">Spice Garden</h1>
+            </div>
+            <p className="mt-1">Table {tableNumber}</p>
           </div>
-          <p className="text-gray-600 mt-1">Table {tableNumber}</p>
-        </div>
-      </div>
-
-      <div className="flex flex-wrap gap-4 mb-8">
-        <div className="flex items-center space-x-2 bg-white p-2 rounded-lg shadow">
-          <Filter size={20} className="text-gray-500" />
-          <select
-            value={activeCategory}
-            onChange={(e) => setActiveCategory(e.target.value)}
-            className="border-none bg-transparent focus:ring-0"
-          >
-            {categories.map(category => (
-              <option key={category} value={category}>
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </option>
-            ))}
-          </select>
         </div>
 
-        <div className="flex space-x-2">
-          {types.map(type => (
-            <button
-              key={type}
-              onClick={() => setActiveType(type)}
-              className={`px-4 py-2 rounded-lg ${
-                activeType === type
-                  ? 'bg-orange-600 text-white'
-                  : 'bg-white text-gray-700 hover:bg-gray-50'
-              } transition-colors shadow`}
-            >
-              {type.charAt(0).toUpperCase() + type.slice(1)}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="space-y-12">
-        {Object.entries(groupedItems).map(([category, items]) => (
-          <div key={category}>
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-orange-200 pb-2">
-              {getCategoryTitle(category)}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {items.map((item) => (
-                <div 
-                  key={item.id} 
-                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
-                  onClick={() => handleAddToCart(item)}
+        <nav className="mb-8">
+          <div className="flex overflow-x-auto pb-4 hide-scrollbar">
+            <div className="flex space-x-4">
+              {categories.map(category => (
+                <button
+                  key={category}
+                  onClick={() => setActiveCategory(category)}
+                  className={`flex items-center space-x-2 px-6 py-3 rounded-full whitespace-nowrap transition-all ${
+                    activeCategory === category
+                      ? 'bg-orange-600 text-white shadow-lg scale-105'
+                      : 'bg-gray-800 text-gray-300 hover:bg -gray-700 shadow'
+                  }`}
                 >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        item.type === 'veg' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                      }`}>
-                        {item.type}
-                      </span>
-                    </div>
-                    <p className="text-gray-600 text-sm mb-4">{item.description}</p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-lg font-bold text-gray-800">₹{item.price}</span>
-                      <div className="flex items-center space-x-1 text-orange-600">
-                        <ShoppingCart size={18} />
-                        <span>Add to Cart</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  <span>{getCategoryIcon(category)}</span>
+                  <span className="font-medium capitalize">{category}</span>
+                </button>
               ))}
             </div>
           </div>
-        ))}
-      </div>
 
-      {showToast && <Toast message={toastMessage} />}
+          <div className="flex space-x-2 mt-4">
+            {types.map(type => (
+              <button
+                key={type}
+                onClick={() => setActiveType(type)}
+                className={`px-4 py-2 rounded-lg ${
+                  activeType === type
+                    ? 'bg-orange-600 text-white'
+                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                } transition-colors shadow`}
+              >
+                {type.charAt(0).toUpperCase() + type.slice(1)}
+              </button>
+            ))}
+          </div>
+        </nav>
+
+        <div className="space-y-12">
+          {Object.entries(groupedItems).map(([category, items]) => (
+            <div key={category}>
+              <h2 className="text-2xl font-bold mb-6 border-b-2 border-orange-200 pb-2">
+                {getCategoryTitle(category)}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {items.map((item) => (
+                  <div 
+                    key={item.id} 
+                    className="bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
+                    onClick={() => handleAddToCart(item)}
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="text-lg font-semibold">{item.name}</h3>
+                        <span className={`px-2 py-1 rounded-full text-xs ${
+                          item.type === 'veg' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                        }`}>
+                          {item.type}
+                        </span>
+                      </div>
+                      <p className="text-gray-400 text-sm mb-4">{item.description}</p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-bold">₹{item.price}</span>
+                        <div className="flex items-center space-x-1 text-orange-600">
+                          <ShoppingCart size={18} />
+                          <span>Add to Cart</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {showToast && <Toast message={toastMessage} />}
+      </div>
     </div>
   );
 }

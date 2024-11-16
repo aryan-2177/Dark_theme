@@ -16,18 +16,22 @@ export default function TableInput({ onTableSubmit }: TableInputProps) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-red-100">
-      <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full mx-4">
+    <div style={{ 
+      backgroundImage: `url("/img.jpg")`,
+      backgroundSize: 'cover', // Ensures the image covers the entire area
+      backgroundRepeat: 'no-repeat' // Prevents the image from repeating
+    }} className="min-h-screen flex items-center justify-center bg-gray-800">
+      <div className="bg-[rgba(0,0,0,0.7)] p-8 rounded-2xl shadow-xl max-w-md w-full mx-4">
         <div className="flex justify-center mb-4">
-          <UtensilsCrossed size={48} className="text-orange-600" />
+          <UtensilsCrossed size={48} className="text-orange-400" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-800 mb-2 text-center">
+        <h1 className="text-3xl font-bold text-white mb-2 text-center">
           Spice Garden
         </h1>
-        <p className="text-center text-gray-600 mb-6">Authentic Indian Cuisine</p>
+        <p className="text-center text-gray-300 mb-6">Authentic Indian Cuisine</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="table" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="table" className="block text-sm font-medium text-gray-300 mb-2">
               Please Enter Your Table Number
             </label>
             <input
@@ -35,7 +39,7 @@ export default function TableInput({ onTableSubmit }: TableInputProps) {
               id="table"
               value={tableNumber}
               onChange={(e) => setTableNumber(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+              className="w-full px-4 py-3 rounded-lg border border-gray-600 bg-gray-700 text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
               placeholder="Enter table number"
               min="1"
               required
