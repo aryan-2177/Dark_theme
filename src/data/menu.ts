@@ -138,7 +138,7 @@ export const menuItems: MenuItem[] = [
     description: 'Aromatic rice with mixed vegetables',
     price: 280,
     category: 'Rice',
-    image: 'https://4.bp.blogspot.com/-qWzc-7lpAXk/WIEb8Z55zmI/AAAAAAAACdE/iewzgRqTP2Q-TdRenIB3zLueuE9rW2nIQCLcB/s1600/vegetable%2Bpulao.JPG',
+    image: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&q=80&w=400',
     type: 'veg'
   },
   {
@@ -158,7 +158,7 @@ export const menuItems: MenuItem[] = [
     description: 'Soft bread from tandoor',
     price: 60,
     category: 'Breads',
-    image: 'https://th.bing.com/th/id/OIP.9SvjMe_SeCJdh_jmPGi2PgHaHa?rs=1&pid=ImgDetMain',
+    image: 'https://th.bing.com/th/id/OIP.idNl8opfObVNTxiRnuQV4wHaLH?rs=1&pid=ImgDetMain',
     type: 'veg'
   },
   {
